@@ -10,15 +10,25 @@ export default function App() {
     { id: 1, content: "Hello, World!", name: "Alice" },
     { id: 2, content: "React is awesome!", name: "Bob" },
     { id: 3, content: "Let's build something cool.", name: "Charlie" },
-  ])
+  ]);
+
+  const remove = (id) => {
+    setData(data.filter(item=> item.id !== id))
+  };
 
   return (
     <div>
       <h1>Yaycha</h1>
       <List>
-        {data.map(item => (
-          <Item key={item.id} content = {item.content} name = {item.name} />
-        ))}
+        {data.map(item => {
+          return (
+          <Item 
+          key={item.id} 
+          item={item} 
+          remove={remove}
+          />
+        );
+        })}
       </List>
     </div>
   );
