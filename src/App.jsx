@@ -17,7 +17,7 @@ export default function App() {
       <h1>Yaycha</h1>
       <List>
         {data.map(item => (
-          <Item content = {item.content} name = {item.name} />
+          <Item key={item.id} content = {item.content} name = {item.name} />
         ))}
       </List>
     </div>
