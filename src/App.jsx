@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, useContext, use } from "react";
 
 import Item from "./Item.jsx";
 import List from "./List.jsx";
 import Form from "./Form.jsx";
+import { AppContext } from "./ThemedApp.jsx";
 
 
 export default function App() {
+
+  const { mode } = useContext(AppContext);
 
   const [data, setData] = useState([
     { id: 1, content: "Hello, World!", name: "Alice" },
@@ -25,7 +28,13 @@ export default function App() {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        color: mode === 'dark' ? 'white' : 'black',
+        backgroundColor: mode === 'dark' ? 'black' : 'white',
+        minHeight: 1500,
+        padding: 20,
+      }}>
       <h1
         style={{
           display: 'flex',
