@@ -13,25 +13,50 @@ export default function App() {
     { id: 3, content: "Let's build something cool.", name: "Charlie" },
   ]);
 
+  const [showForm, setShowForm] = useState(false);
+
   const remove = (id) => {
-    setData(data.filter(item=> item.id !== id))
+    setData(data.filter(item => item.id !== id))
   };
 
   const add = (content, name) => {
     const id = data[data.length - 1].id + 1;
-    setData([...data, { id, content, name}]);
+    setData([...data, { id, content, name }]);
   };
 
   return (
     <div>
-      <h1>Yaycha</h1>
-      <Form add={add} />
+      <h1
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        Yaycha
+        <button
+          style={{
+            width: 32,
+            height: 32,
+            borderRadius: 50,
+            border: '0 none',
+            backgroundColor: showForm ? '#dc3545' : '#0d6efd',
+          }}
+          onClick={() => setShowForm(!showForm)}>
+          {showForm ? "x" : "+"}
+        </button>
+      </h1>
+
+      {showForm && <Form add={add} />}
+
       <List>
+
         {data.map(item => {
           return (
-          <Item key={item.id} item={item} remove={remove}/>
+            <Item key={item.id} item={item} remove={remove} />
           );
         })}
+
       </List>
     </div>
   );
