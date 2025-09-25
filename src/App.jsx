@@ -8,7 +8,7 @@ import { AppContext } from "./ThemedApp.jsx";
 
 export default function App() {
 
-  const { mode } = useContext(AppContext);
+  const { mode, setMode } = useContext(AppContext);
 
   const [data, setData] = useState([
     { id: 1, content: "Hello, World!", name: "Alice" },
@@ -35,6 +35,7 @@ export default function App() {
         minHeight: 1500,
         padding: 20,
       }}>
+        
       <h1
         style={{
           display: 'flex',
@@ -43,6 +44,9 @@ export default function App() {
         }}
       >
         Yaycha
+
+        <div>
+        {/* Toggle form button */}
         <button
           style={{
             width: 32,
@@ -54,6 +58,22 @@ export default function App() {
           onClick={() => setShowForm(!showForm)}>
           {showForm ? "x" : "+"}
         </button>
+
+        {/* // Theme toggle button */}
+        <button 
+          style={{
+            marginLeft: 8,
+            padding: "0 20px",
+            height: 32,
+            borderRadius: 32,
+            border: '0 none',
+            backgroundColor: mode == 'dark' ? '#ffc107' : '#6c757d',
+            color: mode == 'dark' ? 'black' : 'white',
+          }}
+          onClick={() => setMode(mode == 'dark' ? 'light' : 'dark')}>
+          {mode == 'dark' ? 'Light' : 'Dark'}
+        </button>
+        </div>
       </h1>
 
       {showForm && <Form add={add} />}

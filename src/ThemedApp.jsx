@@ -1,12 +1,14 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
 import App from "./App.jsx";
 
 export const AppContext = createContext();
 
 export default function ThemedApp() {
+    const [mode, setMode] = useState('dark');
+
     return (
-        <AppContext.Provider value={{ mode: 'dark' }}>
+        <AppContext.Provider value={{ mode, setMode }}>
             <App />
         </AppContext.Provider>
     );
