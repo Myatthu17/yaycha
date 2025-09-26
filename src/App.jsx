@@ -2,7 +2,7 @@ import { useState, useContext, use } from "react";
 
 import Item from "./Item.jsx";
 import List from "./List.jsx";
-import Form from "./Form.jsx";
+import Form from "./components/Form.jsx";
 import { AppContext } from "./ThemedApp.jsx";
 
 
