@@ -1,14 +1,16 @@
-import { useState, useContext, use } from "react";
+import { useState } from "react";
 
-import Item from "./Item.jsx";
-import List from "./List.jsx";
+import { Box, Container } from "@mui/material";
+
+import Item from "./components/Item.jsx";
+import Header from "./components/Header.jsx";
 import Form from "./components/Form.jsx";
-import { AppContext } from "./ThemedApp.jsx";
+import { useApp } from "./ThemedApp.jsx";
 
 
 export default function App() {
 
-  const { mode, setMode } = useContext(AppContext);
+  const { showForm } = useApp();
 
   const [data, setData] = useState([
     { id: 1, content: "Hello, World!", name: "Alice" },
@@ -16,77 +18,36 @@ export default function App() {
     { id: 3, content: "Let's build something cool.", name: "Charlie" },
   ]);
 
-  const [showForm, setShowForm] = useState(false);
-
   const remove = (id) => {
     setData(data.filter(item => item.id !== id))
   };
 
   const add = (content, name) => {
-    const id = data[data.length - 1].id + 1;
-    setData([...data, { id, content, name }]);
+    const id = data[0].id + 1;
+    setData([{id, content, name }, ...data]);
   };
 
   return (
-    <div
-      style={{
-        color: mode === 'dark' ? 'white' : 'black',
-        backgroundColor: mode === 'dark' ? 'black' : 'white',
-        minHeight: 1500,
-        padding: 20,
-      }}>
-        
-      <h1
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        Yaycha
+    <Box>
+      <Header />
 
-        <div>
-        {/* Toggle form button */}
-        <button
-          style={{
-            width: 32,
-            height: 32,
-            borderRadius: 50,
-            border: '0 none',
-            backgroundColor: showForm ? '#dc3545' : '#0d6efd',
-          }}
-          onClick={() => setShowForm(!showForm)}>
-          {showForm ? "x" : "+"}
-        </button>
+      <Container
+        maxWidth="sm"
+        sx={{ mt: 4 }}>
 
-        {/* // Theme toggle button */}
-        <button 
-          style={{
-            marginLeft: 8,
-            padding: "0 20px",
-            height: 32,
-            borderRadius: 32,
-            border: '0 none',
-            backgroundColor: mode == 'dark' ? '#ffc107' : '#6c757d',
-            color: mode == 'dark' ? 'black' : 'white',
-          }}
-          onClick={() => setMode(mode == 'dark' ? 'light' : 'dark')}>
-          {mode == 'dark' ? 'Light' : 'Dark'}
-        </button>
-        </div>
-      </h1>
-
-      {showForm && <Form add={add} />}
-
-      <List>
+        {showForm && <Form add={add} />}
 
         {data.map(item => {
           return (
-            <Item key={item.id} item={item} remove={remove} />
+            <Item
+              key={item.id}
+              item={item}
+              remove={remove}
+            />
           );
         })}
 
-      </List>
-    </div>
+      </Container>
+    </Box>
   );
 }
