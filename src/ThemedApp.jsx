@@ -16,6 +16,7 @@ import Template from "./Template";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Profile from "./pages/Profile";
 
 
 const AppContext = createContext();
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
             {
                 path: "/register",
                 element: <Register />,
+            },
+            {
+                path: "/profile",
+                element: <Profile />,
             },
         ],
     }, 
