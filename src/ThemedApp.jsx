@@ -14,6 +14,7 @@ import { deepPurple, grey } from "@mui/material/colors";
 
 import Template from "./Template";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
 
 
 const AppContext = createContext();
@@ -30,7 +31,11 @@ const router = createBrowserRouter([
             {
                 path: "/",
                 element: <Home />,
-            }
+            },
+            {
+                path: "/login",
+                element: <Login />,
+            },
         ],
     }, 
 ]);

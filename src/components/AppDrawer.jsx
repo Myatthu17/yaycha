@@ -19,12 +19,15 @@ import {
     Login as LoginIcon,
 } from "@mui/icons-material";
 
+import { useNavigate } from "react-router-dom";
+
 import { deepPurple } from "@mui/material/colors";
 
 import { useApp } from "../ThemedApp";
 
 export default function AppDrawer() {
     const { showDrawer, setShowDrawer, auth, setAuth } = useApp();
+    const navigate = useNavigate();
 
     return (
         <div>
@@ -113,7 +116,7 @@ export default function AppDrawer() {
                             </ListItem>
 
                             <ListItem>
-                                <ListItemButton onClick={() => setAuth(true)}>
+                                <ListItemButton onClick={() => navigate("/login")}>
                                     <ListItemIcon>
                                         <LoginIcon />
                                     </ListItemIcon>
