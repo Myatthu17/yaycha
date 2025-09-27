@@ -6,7 +6,7 @@ import {
     Avatar,
     ListItemText,
     ListItemAvatar, 
-} from "@mui/icons-material";
+} from "@mui/material";
 
 
 export default function UserList({ title }) {
