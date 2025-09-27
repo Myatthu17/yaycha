@@ -1,22 +1,39 @@
 import { createContext, useState, useContext, useMemo } from "react";
-
 import { 
     CssBaseline, 
     ThemeProvider, 
     createTheme, 
     Snackbar,
- } from "@mui/material";
-
-import App from "./App.jsx";
-import AppDrawer from "./components/AppDrawer.jsx";
+} from "@mui/material";
+import {
+    createBrowserRouter,
+    RouterProvider,
+} from "react-router-dom";
 
 import { deepPurple, grey } from "@mui/material/colors";
+
+import Template from "./Template";
+import Home from "./pages/Home";
+
 
 const AppContext = createContext();
 
 export function useApp() {
     return useContext(AppContext);
 }
+
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <Template />,
+        children: [
+            {
+                path: "/",
+                element: <Home />,
+            }
+        ],
+    }, 
+]);
 
 export default function ThemedApp() {
     const [showForm, setShowForm] = useState(false);
@@ -53,20 +70,7 @@ export default function ThemedApp() {
                 setAuth, 
             }}>
 
-                <App />
-                <AppDrawer />
-
-                <Snackbar
-                  anchorOrigin={{
-                    horizontal: "center",
-                    vertical: "bottom",
-                  }}
-                  open={Boolean(globalMsg)}
-                  autoHideDuration={6000}
-                  onClose={() => setGlobalMsg(null)}
-                  message={globalMsg}
-                />
-
+                <RouterProvider router={router}/>
                 <CssBaseline />
             </AppContext.Provider>
         </ThemeProvider>
