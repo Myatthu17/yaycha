@@ -1,5 +1,11 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Alert } from "@mui/material";
 import Item from "../components/Item";
+
+import { userParamas, useNavigate } from "react-router-dom";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { queryClient } from "../ThemedApp";
+
+const api = import.meta.env.VITE_API;
 
 export default function Comments() {
     return (
