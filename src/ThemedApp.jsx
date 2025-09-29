@@ -62,7 +62,7 @@ const router = createBrowserRouter([
 
 export default function ThemedApp() {
     const [showForm, setShowForm] = useState(false);
-    const [mode, setMode] = useState('dark');
+    const [mode, setMode] = useState('light');
     const [showDrawer, setShowDrawer] = useState(false);
     const [globalMsg, setGlobalMsg] = useState(null);
     const [auth, setAuth] = useState(null);
