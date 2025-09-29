@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Box } from "@mui/material";
 
@@ -9,12 +9,19 @@ import { useApp } from "../ThemedApp";
 
 export default function Home() {
     const { showForm, setGlobalMsg } = useApp();
+    const [data, setData] = useState([]);
 
-    const [data, setData] = useState([
-        { id: 1, content: "Hello, World!", name: "Alice" },
-        { id: 2, content: "React is awesome!", name: "Bob" },
-        { id: 3, content: "Let's build something cool.", name: "Charlie" },
-    ] );
+    async function fetchPosts() {
+        const api = import.meta.env.VITE_API;
+        const res = await fetch(`${api}/content/posts`);
+        const json = await res.json();
+        setData(json);
+    }
+
+    useEffect(() => {
+        const api = import.meta.env.VITE_API;
+        fetchPosts();
+    })
 
     const remove = (id) => {
         setData(data.filter(item => item.id !== id));
