@@ -38,7 +38,7 @@ export default function Comments() {
     onMutate: id => {
       queryClient.cancelQueries({ queryKey: ["comments"] });
       queryClient.setQueryData(["comments"], old => {
-        old.filter(item => item.id !== id)
+        old.comments = old.comments.filter(item => item.id !== id)
         return { ...old }
       }
       )
