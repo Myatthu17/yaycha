@@ -3,8 +3,9 @@ import { Box, Alert } from "@mui/material";
 import Form from "../components/Form";
 import Item from "../components/Item";
 
-import { useApp } from "../ThemedApp";
-import { useQuery } from "@tanstack/react-query";
+import { useApp, queryClient } from "../ThemedApp";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { set } from "date-fns";
 
 const api = import.meta.env.VITE_API;
 
@@ -19,10 +20,18 @@ export default function Home() {
         }
     });
 
-    const remove = (id) => {
-        setData(data.filter(item => item.id !== id));
-        setGlobalMsg("An item deleted");
-    };
+    const remove = useMutation({
+        mutationFn : async id => {
+            await fetch(`${api}/content/posts/${id}`, { method: "DELETE" });
+        },
+        onMutate: id => {
+            queryClient.cancelQueries({ queryKey: ["posts"] });
+            queryClient.setQueryData(["posts"], old => 
+                old.filter(item => item.id !== id)
+            )
+            setGlobalMsg("A post has been deleted")
+        }
+    })
 
     const add = (content, name) => {
         const id = data[0].id + 1;
@@ -52,7 +61,7 @@ export default function Home() {
 
             {data.map(item=> {
                 return (
-                    <Item key={item.id} item={item} remove={remove}/>
+                    <Item key={item.id} item={item} remove={remove.mutate}/>
                 )
             })}
         </Box>
