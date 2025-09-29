@@ -1,31 +1,23 @@
-import { useState, useEffect } from "react";
-
-import { Box } from "@mui/material";
+import { Box, Alert } from "@mui/material";
 
 import Form from "../components/Form";
 import Item from "../components/Item";
 
 import { useApp } from "../ThemedApp";
+import { useQuery } from "@tanstack/react-query";
+
+const api = import.meta.env.VITE_API;
+
 
 export default function Home() {
     const { showForm, setGlobalMsg } = useApp();
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
-
-    useEffect(() => {
-        const api = import.meta.env.VITE_API;
-        fetch(`${api}/content/posts`)
-            .then(async res => {
-                if (res.ok) {
-                    setData(await res.json());
-                    setLoading(false);
-                } else {
-                    setError(true);
-                }
-            })
-            .catch(() => setError(true));
-    }, [])
+    const { isLoading, isError, error, data } = useQuery({
+        queryKey: ["posts"], 
+        queryFn: async () => {
+            const res = await fetch(`${api}/content/posts`);
+            return res.json();
+        }
+    });
 
     const remove = (id) => {
         setData(data.filter(item => item.id !== id));
@@ -38,15 +30,15 @@ export default function Home() {
         setGlobalMsg("An item added")
     };
 
-    if (error) {
+    if (isError) {
         return (
             <Box>
-                <Alert severity="warning">Cannot fetch data</Alert>
+                <Alert severity="warning">{error.message}</Alert>
             </Box>
         )
     }
 
-    if (loading) {
+    if (isLoading) {
         return (
             <Box sx={{ textAlign: "center", mt: 5 }}>
                 Loading...

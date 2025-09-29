@@ -10,6 +10,8 @@ import {
     RouterProvider,
 } from "react-router-dom";
 
+import { QueryClientProvider, QueryClient, Query } from "@tanstack/react-query";
+
 import { deepPurple, grey } from "@mui/material/colors";
 
 import Template from "./Template";
@@ -60,6 +62,8 @@ const router = createBrowserRouter([
     }, 
 ]);
 
+export const queryClient = new QueryClient();
+
 export default function ThemedApp() {
     const [showForm, setShowForm] = useState(false);
     const [mode, setMode] = useState('light');
@@ -94,8 +98,9 @@ export default function ThemedApp() {
                 auth,
                 setAuth, 
             }}>
-
-                <RouterProvider router={router}/>
+                <QueryClientProvider client={queryClient}>
+                  <RouterProvider router={router}/>
+                </QueryClientProvider>
                 <CssBaseline />
             </AppContext.Provider>
         </ThemeProvider>
