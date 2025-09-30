@@ -78,11 +78,11 @@ export async function postPost(content) {
     throw new Error("Error: Check Network Log")
 }
 
-export async function postComment(content, postID) {
+export async function postComment(content, postId) {
     const token = getToken();
     const res = await fetch(`${api}/content/comments`, {
         method: "POST",
-        body: JSON.stringify({ content, postID}),
+        body: JSON.stringify({ content, postId}),
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
