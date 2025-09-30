@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import { fetchUser } from "../../libs/fetcher";
 import { useQuery } from "@tanstack/react-query";
 
+import Item from "../components/Item";
+
 export default function Profile() {
   const { id } = useParams();
 
@@ -51,6 +53,16 @@ export default function Profile() {
                   </Typography>
               </Box>
           </Box>
+
+          {data.posts.length === 0 ? (
+            <Alert severity="info">No posts</Alert>
+          ) : (
+            data.posts.map(post => {
+              return (
+                <Item key={post.id} item={post} profilePost />
+              )
+            })
+          )}
 
       </Box>
   );

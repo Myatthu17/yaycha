@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 
 import { formatRelative } from "date-fns";
 
-export default function Item({ item, remove, primary, comment }) {
+export default function Item({ item, remove, primary, comment, profilePost }) {
   const navigate = useNavigate();
 
   return (
@@ -53,37 +53,43 @@ export default function Item({ item, remove, primary, comment }) {
                 </Typography>
             </Box>
 
-            <IconButton
-              size="small"
-              onClick={e => {
-                remove(item.id);
-                e.stopPropagation();
-              }}>
+            {!profilePost &&
+              <IconButton
+                size="small"
+                onClick={e => {
+                  remove(item.id);
+                  e.stopPropagation();
+                }}>
                 <DeleteIcon fontSize="inherit"/>
-            </IconButton>
+              </IconButton>
+            }
+
         </Box>
 
         <Typography sx={{ my: 3 }}>{item.content}</Typography>
 
-        <Box
-          onClick={
-            e=> {
-              navigate(`/profile/${item.user.id}`);
-              e.stopPropagation();
+        {!profilePost && (
+          <Box
+            onClick={
+              e=> {
+                navigate(`/profile/${item.user.id}`);
+                e.stopPropagation();
+              }
             }
-          }
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 1,
-          }}>
-            <UserIcon
-              fontSize="12"
-              color="info"
-            />
-            <Typography variant="caption">{item.user.name}</Typography>
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 1,
+            }}>
+              <UserIcon
+                fontSize="12"
+                color="info"
+              />
+              <Typography variant="caption">{item.user.name}</Typography>
           </Box>
+        )}
+
 
       </CardContent>
     </Card>
