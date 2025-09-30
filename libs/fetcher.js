@@ -59,3 +59,39 @@ export async function fetchVerify() {
 
     return false
 }
+
+export async function postPost(content) {
+    const token = getToken();
+    const res = await fetch(`${api}/content/posts`, {
+        method: "POST",
+        body: JSON.stringify( { content }),
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        }
+    })
+
+    if (res.ok) {
+        return res.json();
+    }
+
+    throw new Error("Error: Check Network Log")
+}
+
+export async function postComment(content, postID) {
+    const token = getToken();
+    const res = await fetch(`${api}/content/comments`, {
+        method: "POST",
+        body: JSON.stringify({ content, postID}),
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        }
+    })
+
+    if (res.ok) {
+        return res.json();
+    }
+
+    throw new Error("Error: Check Network Log")
+}

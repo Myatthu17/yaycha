@@ -6,11 +6,13 @@ import Item from "../components/Item";
 import { useApp, queryClient } from "../ThemedApp";
 import { useQuery, useMutation } from "@tanstack/react-query";
 
+import { postPost } from "../../libs/fetcher";
+
 const api = import.meta.env.VITE_API;
 
 
 export default function Home() {
-    const { showForm, setGlobalMsg } = useApp();
+    const { showForm, setGlobalMsg, auth } = useApp();
     const { isLoading, isError, error, data } = useQuery({
         queryKey: ["posts"], 
         queryFn: async () => {
@@ -32,11 +34,14 @@ export default function Home() {
         }
     })
 
-    const add = (content, name) => {
-        const id = data[0].id + 1;
-        setData([{id, content, name }, ...data]);
-        setGlobalMsg("An item added")
-    };
+    const add = useMutation({
+        mutationFn: async content => postPost(content),
+        onSuccess: async post => {
+            await queryClient.cancelQueries(["posts"])
+            await queryClient.setQueryData(["posts"], old => [post, ...old])
+            setGlobalMsg("A post added")
+        },
+    })
 
     if (isError) {
         return (
@@ -56,7 +61,7 @@ export default function Home() {
 
     return (
         <Box>
-            {showForm && <Form add={add}/>}
+            {showForm && auth && <Form add={add}/>}
 
             {data.map(item=> {
                 return (

@@ -12,9 +12,9 @@ export default function Form({ add }) {
             e.preventDefault();
             const content = contentRef.current.value;
 
-            add(content, "Myat Thu");
+            add.mutate(content);
 
-            e.currentTarget.reset();
+            e.currentTarget.reset()
         }}>
             <Box sx={{ mb: 4, textAlign : "right" }}>
                 <TextField
