@@ -95,3 +95,19 @@ export async function postComment(content, postId) {
 
     throw new Error("Error: Check Network Log")
 }
+
+export async function deletePost(postId) {
+    const token = getToken();
+    const res = await fetch(`${api}/content/posts/${postId}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    })
+
+    if (res.ok) {
+        return "resolved"
+    }
+
+    throw new Error("Error: can't delete")
+}
