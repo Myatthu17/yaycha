@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 
 import { formatRelative } from "date-fns";
 
-export default function Item({ item, remove, primary, comment, profilePost }) {
+export default function Item({ item, remove, primary, comment, profilePost, isOwner }) {
   const navigate = useNavigate();
 
   return (
@@ -53,7 +53,7 @@ export default function Item({ item, remove, primary, comment, profilePost }) {
                 </Typography>
             </Box>
 
-            {true &&
+            {isOwner &&
               <IconButton
                 size="small"
                 onClick={e => {

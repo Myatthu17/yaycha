@@ -67,8 +67,9 @@ export default function Home() {
             {showForm && auth && <Form add={add}/>}
 
             {data.map(item=> {
+                const isOwner = item.userId == auth.id
                 return (
-                    <Item key={item.id} item={item} remove={remove.mutate}/>
+                    <Item key={item.id} item={item} remove={remove.mutate} isOwner={isOwner}/>
                 )
             })}
         </Box>
