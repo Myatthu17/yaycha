@@ -111,3 +111,19 @@ export async function deletePost(postId) {
 
     throw new Error("Error: can't delete")
 }
+
+export async function deleteComment(cmtId) {
+    const token = getToken();
+    const res = await fetch(`${api}/content/comments/${cmtId}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+
+    if (res.ok) {
+        return "resolved"
+    }
+
+    throw new Error("Error: can't delete")
+}

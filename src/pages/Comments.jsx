@@ -6,7 +6,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, useApp } from "../ThemedApp";
 
-import { postComment } from "../../libs/fetcher";
+import { postComment, deleteComment, deletePost } from "../../libs/fetcher";
 
 const api = import.meta.env.VITE_API;
 
@@ -38,22 +38,24 @@ export default function Comments() {
   })
 
   const removePost = useMutation({
-    mutationFn: async id => {
-      await fetch(`${api}/content/posts/${id}`, { method: "DELETE" });
-    },
-    onSuccess: () => {
-      navigate("/");
-      setGlobalMsg("The post has been deleted")
-    },
-  })
+        mutationFn : async id => {
+            await deletePost(id);
+            return id;
+        },
+        onSuccess: () => {
+            navigate("/")
+            setGlobalMsg("The post has been deleted")
+        },
+    })
 
   const removeComment = useMutation({
     mutationFn: async id => {
-      await fetch(`${api}/content/comments/${id}` , { method: "DELETE" });
+      await deleteComment(id);
+      return id;
     },
-    onMutate: id => {
-      queryClient.cancelQueries({ queryKey: ["comments"] });
-      queryClient.setQueryData(["comments"], old => {
+    onSuccess: async id => {
+      await queryClient.cancelQueries({ queryKey: ["comments"] });
+      await queryClient.setQueryData(["comments"], old => {
         old.comments = old.comments.filter(item => item.id !== id)
         return { ...old }
       }
@@ -78,21 +80,26 @@ export default function Comments() {
     )
   }
 
+  const isPostOwner = auth.id === data.userId
+
   return (
     <Box>
       <Item
         primary
         item={data}
         remove={removePost.mutate}
+        isOwner={isPostOwner}
       />
 
       {data.comments.map(comment => {
+        const isOwner = auth.id === comment.userId
         return (
           <Item
             comment
             key={comment.id}
             item={comment}
             remove={removeComment.mutate}
+            isOwner={isOwner}
           />
         )
       })}

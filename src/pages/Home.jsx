@@ -3,8 +3,6 @@ import { Box, Alert } from "@mui/material";
 import Form from "../components/Form";
 import Item from "../components/Item";
 
-import { useState } from "react"
-
 import { useApp, queryClient } from "../ThemedApp";
 import { useQuery, useMutation } from "@tanstack/react-query";
 
@@ -14,6 +12,7 @@ const api = import.meta.env.VITE_API;
 
 
 export default function Home() {
+    const { user } = localStorage.getItem("user")
     const { showForm, setGlobalMsg, auth } = useApp();
     const { isLoading, isError, error, data } = useQuery({
         queryKey: ["posts"], 
@@ -67,7 +66,7 @@ export default function Home() {
             {showForm && auth && <Form add={add}/>}
 
             {data.map(item=> {
-                const isOwner = item.userId == auth.id
+                const isOwner = item?.userId && auth?.id ? item.userId == auth.id : false;
                 return (
                     <Item key={item.id} item={item} remove={remove.mutate} isOwner={isOwner}/>
                 )
