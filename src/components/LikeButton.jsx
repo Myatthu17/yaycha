@@ -20,8 +20,7 @@ import {
     deletePostLike,
     postCommentLike,
     deleteCommentLike,
-} from "../libs/fetcher"
-import { postPost } from "../../libs/fetcher";
+} from "../../libs/fetcher"
 
 export default function LikeButton({ item, comment }) {
     const navigate = useNavigate();
@@ -76,7 +75,7 @@ export default function LikeButton({ item, comment }) {
 
                         e.stopPropagation();
                     }}>
-                    <LikeIcon
+                    <LikedIcon
                         fontSize="small"
                         color="error"
                     />
