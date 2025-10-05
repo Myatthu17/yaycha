@@ -178,10 +178,10 @@ export async function deleteCommentLike(id) {
 
 export async function fetchPostLikes(id) {
     const res = await fetch(`${api}/content/likes/posts/${id}`);
-    res.json();
+    return res.json();
 }
 
 export async function fetchCommentLikes(id) {
     const res = await fetch(`${api}/content/likes/comments/${id}`);
-    res.json();
+    return res.json();
 }

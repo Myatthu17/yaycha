@@ -33,7 +33,6 @@ export default function Login() {
         onSuccess: async result => {
             setAuth(result.user)
             localStorage.setItem("token", result.token);
-            localStorage.setItem("user", result.user)
             navigate("/");
         }
     })

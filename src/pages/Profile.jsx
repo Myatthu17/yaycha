@@ -11,7 +11,7 @@ export default function Profile() {
   const { id } = useParams();
 
   const { isLoading, isError, error, data } = useQuery({
-    queryKey: ["user", id],
+    queryKey: ["users", id],
     queryFn: async () => fetchUser(id),
   })
 
@@ -52,6 +52,8 @@ export default function Profile() {
                       {data.bio}
                   </Typography>
               </Box>
+
+              
           </Box>
 
           {data.posts.length === 0 ? (
@@ -64,6 +66,10 @@ export default function Profile() {
             })
           )}
 
+          {console.log(data)}
+
       </Box>
+
+      
   );
 }

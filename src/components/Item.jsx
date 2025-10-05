@@ -96,13 +96,14 @@ export default function Item({ item, remove, primary, comment, profilePost, isOw
                 fontSize="12"
                 color="info"
               />
-              <Typography variant="caption">{item.user.name}</Typography>
+              {!profilePost && <Typography variant="caption">{item.user.name}</Typography>}
             </Box>
-
+            {!profilePost && (
             <Box>
               <LikeButton item={item} comment={comment} />
               <CommentButton item={item} comment={comment} />
             </Box>
+            )}
 
           </Box>
         
