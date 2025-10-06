@@ -80,7 +80,12 @@ export default function Comments() {
     )
   }
 
-  const isPostOwner = auth.id === data.userId
+  let isPostOwner = false;
+
+  if (auth && auth.id) {
+    isPostOwner = auth.id === data.userId;
+  }
+
 
   return (
     <Box>

@@ -11,6 +11,8 @@ import {
 
 import { useNavigate } from "react-router-dom";
 
+import FollowButton from "./FollowButton";
+
 
 export default function UserList({ title, data }) {
     const navigate = useNavigate();
@@ -26,7 +28,9 @@ export default function UserList({ title, data }) {
             <List>
                 {data.map(item => {
                     return (
-                        <ListItem key={item.id}>
+                        <ListItem key={item.id}
+                            secondaryAction={<FollowButton user={item.user} />}    
+                        >
                             <ListItemButton
                               onClick={() => navigate(`/profile/${item.user.id}`)}>
                             

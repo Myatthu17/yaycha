@@ -12,7 +12,6 @@ const api = import.meta.env.VITE_API;
 
 
 export default function Home() {
-    const { user } = localStorage.getItem("user")
     const { showForm, setGlobalMsg, auth } = useApp();
     const { isLoading, isError, error, data } = useQuery({
         queryKey: ["posts"], 
