@@ -29,59 +29,62 @@ export default function Item({ item, remove, primary, comment, profilePost, isOw
       <CardContent onClick={() => {
         if (comment) return false;
         navigate(`/comments/${item.id}`);
-        }}
-        sx={{ cursor: "pointer"}}
-        >
+      }}
+        sx={{ cursor: "pointer" }}
+      >
         <Box
           sx={{
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
           }}>
-            <Box 
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                alignContent: "center",
-                gap: 1,
-              }}>
-                <TimeIcon
-                  fontSize="10"
-                  color="success"
-                />
-                <Typography
-                  variant="caption"
-                  sx={{ color: green[500] }}>
-                  {formatRelative(item.created, new Date())} 
-                </Typography>
-            </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignContent: "center",
+              gap: 1,
+            }}>
+            <TimeIcon
+              fontSize="10"
+              color="success"
+            />
+            <Typography
+              variant="caption"
+              sx={{ color: green[500] }}>
+              {formatRelative(item.created, new Date())}
+            </Typography>
+          </Box>
 
-            {isOwner &&
-              <IconButton
-                size="small"
-                onClick={e => {
-                  remove(item.id);
-                  e.stopPropagation();
-                }}>
-                <DeleteIcon fontSize="inherit"/>
-              </IconButton>
-            }
+          {isOwner &&
+            <IconButton
+              size="small"
+              onClick={e => {
+                remove(item.id);
+                e.stopPropagation();
+              }}>
+              <DeleteIcon fontSize="inherit" />
+            </IconButton>
+          }
 
         </Box>
 
         <Typography sx={{ my: 3 }}>{item.content}</Typography>
 
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}>
 
+
+        {!profilePost && (
           <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}>
+
+            <Box
               onClick={
-                e=> {
+                e => {
                   navigate(`/profile/${item.user.id}`);
                   e.stopPropagation();
                 }
@@ -96,18 +99,16 @@ export default function Item({ item, remove, primary, comment, profilePost, isOw
                 fontSize="12"
                 color="info"
               />
-              {!profilePost && <Typography variant="caption">{item.user.name}</Typography>}
+              <Typography variant="caption">{item.user.name}</Typography>
             </Box>
-            {!profilePost && (
             <Box>
               <LikeButton item={item} comment={comment} />
               <CommentButton item={item} comment={comment} />
             </Box>
-            )}
+
 
           </Box>
-        
-
+        )}
       </CardContent>
     </Card>
   );

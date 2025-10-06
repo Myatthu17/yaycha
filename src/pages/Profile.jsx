@@ -6,6 +6,7 @@ import { fetchUser } from "../../libs/fetcher";
 import { useQuery } from "@tanstack/react-query";
 
 import Item from "../components/Item";
+import FollowButton from "../components/FollowButton";
 
 export default function Profile() {
   const { id } = useParams();
@@ -53,7 +54,7 @@ export default function Profile() {
                   </Typography>
               </Box>
 
-              
+              <FollowButton user={data}/>
           </Box>
 
           {data.posts.length === 0 ? (
