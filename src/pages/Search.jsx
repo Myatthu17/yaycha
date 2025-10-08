@@ -1,0 +1,81 @@
+import {
+    Alert,
+    Avatar,
+    Box,
+    List,
+    ListItem,
+    ListItemAvatar,
+    ListItemButton,
+    ListItemText,
+    TextField,
+} from "@mui/material";
+
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+
+import { fetchSearch } from "../../libs/fetcher";
+import FollowButton from "../components/FollowButton";
+
+import { useDebounce } from "@uidotdev/usehooks";
+
+export default function Search() {
+    const [ query, setQuery ] = useState("");
+
+    const debouncedQuery = useDebounce(query, 500);
+    const navigate = useNavigate();
+
+    const { isLoading, isError, error, data } = useQuery({
+        queryKey: ["search", debouncedQuery],
+        queryFn: () => {
+            return fetchSearch(debouncedQuery);
+        }
+    })
+
+    if (isError) {
+        return (
+            <Box>
+                <Alert severity="warning">{error.message}</Alert>
+            </Box>
+        )
+    }
+
+    return (
+        <Box>
+            <TextField
+              fullWidth={true}
+              variant="outlined"
+              placeholder="Search user"
+              onKeyUp={e => {
+                setQuery(e.target.value)
+              }}
+            />
+
+            {isLoading ? (
+                <Box sx={{ textAlign: "center", mt: 4 }}>Loading...</Box>
+            ) : (
+                <List>
+                    {data.map(user => {
+                        return (
+                            <ListItem key={user.id} secondaryAction={<FollowButton user={user}/>}>
+                                <ListItemButton
+                                  onClick={() => navigate(`/profile/${user.id}`)}>
+
+                                    <ListItemAvatar>
+                                        <Avatar />
+                                    </ListItemAvatar>
+
+                                    <ListItemText
+                                      primary={user.name}
+                                      secondary={user.bio}
+                                    />
+
+                                </ListItemButton>
+                            </ListItem>
+                        )
+                    })}
+                </List>
+            )}
+        </Box>
+    )
+}

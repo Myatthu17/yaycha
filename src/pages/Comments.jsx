@@ -97,7 +97,7 @@ export default function Comments() {
       />
 
       {data.comments.map(comment => {
-        const isOwner = auth.id === comment.userId
+        const isOwner = auth?.id  && auth.id === comment.userId
         return (
           <Item
             comment
