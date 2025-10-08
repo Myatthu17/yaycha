@@ -1,49 +1,47 @@
 # 📖 Yaycha — Learning Project
 
-This is **Yaycha**, a social media platform project I’m building while following along with
-**Rock Star Developer 2025** by *Sayar Ei Maung*.
+This is **Yaycha**, a social media platform project I’m building while following along with **Rock Star Developer 2025** by *Sayar Ei Maung*. It allows users to create posts, interact with others through likes and comments, follow users, and explore the latest updates from their network.
 
-👉 It’s not a finished app (yet). I’m just copying, practicing, and learning from the book step by step.
-
----
-
-## 🚧 What’s Here (so far)
-
-* 📝 Posts (basic)
-* 👍 Likes
-* 💬 Comments
-* 👤 Profile view
-* 🔑 Login / Logout (framework only — not working yet 😅)
+👉 It’s not a finished app. I’m just copying, practicing, and learning from the book step by step.
 
 ---
 
-## 🛠️ Tools I’m Learning
+## 🚀 Features
 
-* **React + Vite** ⚡
-* **MUI (Material UI)** 🎨
-
-(Backend and real features will come later as I learn more!)
-
----
-
-## 💡 Why This Exists
-
-This repo is mostly for me:
-
-* To track my progress 📈
-* To practice coding while following the book
-* To have fun building something, even if it’s not perfect 🎉
+- 📝 Create and view posts  
+- 💬 Comment on posts  
+- ❤️ Like posts and comments  
+- 👤 View user profiles  
+- ➕ Follow and unfollow users  
+- 🕒 Browse latest posts  
+- 👀 View posts from followed users  
 
 ---
 
-## 🚀 Running It
+## 🛠️ Tech Stack
+
+- ⚛️ **React + Vite** — for a fast and optimized frontend  
+- 🎨 **Material UI (MUI)** — for a clean and responsive design  
+- 🔄 **TanStack Query (React Query)** — for smooth and efficient API communication  
+- 🧭 **React Router DOM** — for navigation and routing  
+- ⏰ **date-fns** — for time and date formatting  
+
+---
+
+## 💡 Overview
+
+Yaycha provides a sleek and user-friendly social experience built with modern web technologies.  
+It connects to the **[Yaycha API](https://github.com/Myatthu17/yaycha-api)** for data handling, authentication, and backend logic.
+
+---
+
+## ⚙️ Installation & Setup
 
 ```bash
-git clone [https://github.com/your-username/yaycha.git](https://github.com/Myatthu17/yaycha.git)
+git clone https://github.com/Myatthu17/yaycha.git
 cd yaycha
 npm install
 npm run dev
-```
 
 Then it will automatically open 👉 [http://localhost:3000](http://localhost:3000).
 
