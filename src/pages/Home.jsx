@@ -1,23 +1,25 @@
-import { Box, Alert } from "@mui/material";
+import { Box, Alert, Button, Typography } from "@mui/material";
 
 import Form from "../components/Form";
 import Item from "../components/Item";
 
 import { useApp, queryClient } from "../ThemedApp";
 import { useQuery, useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 
-import { postPost, deletePost } from "../../libs/fetcher";
+import { postPost, deletePost, fetchFollowingPosts, fetchPosts } from "../../libs/fetcher";
 
 const api = import.meta.env.VITE_API;
 
 
 export default function Home() {
+    const [showLatest, setShowLatest ] = useState(true);
     const { showForm, setGlobalMsg, auth } = useApp();
     const { isLoading, isError, error, data } = useQuery({
-        queryKey: ["posts"], 
+        queryKey: ["posts", showLatest], 
         queryFn: async () => {
-            const res = await fetch(`${api}/content/posts`);
-            return res.json();
+            if (showLatest) return fetchPosts();
+            else return fetchFollowingPosts();
         }
     });
 
@@ -28,7 +30,7 @@ export default function Home() {
         },
         onSuccess: async id => {
             await queryClient.cancelQueries({ queryKey: ["posts"] });
-            await queryClient.setQueryData(["posts"], old => 
+            await queryClient.setQueryData(["posts", showLatest], old => 
                 old.filter(item => item.id !== id)
             )
             setGlobalMsg("A post has been deleted")
@@ -39,7 +41,7 @@ export default function Home() {
         mutationFn: async content => postPost(content),
         onSuccess: async post => {
             await queryClient.cancelQueries(["posts"])
-            await queryClient.setQueryData(["posts"], old => [post, ...old])
+            await queryClient.setQueryData(["posts", showLatest], old => [post, ...old])
             setGlobalMsg("A post added")
         },
     })
@@ -62,12 +64,42 @@ export default function Home() {
 
     return (
         <Box>
-            {showForm && auth && <Form add={add}/>}
+            {showForm && auth && <Form add={add} />}
 
-            {data.map(item=> {
-                const isOwner = item?.userId && auth?.id ? item.userId == auth.id : false;
+            {auth && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    mb: 1,
+                  }}>
+                    
+                    <Button
+                      disabled={showLatest}
+                      onClick={() => setShowLatest(true)}>
+                        Latest
+                    </Button>
+
+                    <Typography sx={{ color: "text.fade", fontSize: 15}}>
+                        |
+                    </Typography>
+
+                    <Button
+                      disabled={!showLatest}
+                      onClick={() => setShowLatest(false)}>
+                        Following
+                    </Button>
+                </Box>
+            )}
+
+            {data.map(item => {
                 return (
-                    <Item key={item.id} item={item} remove={remove.mutate} isOwner={isOwner}/>
+                    <Item
+                      key={item.id}
+                      item={item}
+                      remove={remove.mutate}
+                    />
                 )
             })}
         </Box>
