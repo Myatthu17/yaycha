@@ -42,6 +42,7 @@ git clone https://github.com/Myatthu17/yaycha.git
 cd yaycha
 npm install
 npm run dev
+```
 
 Then it will automatically open 👉 [http://localhost:3000](http://localhost:3000).
 
