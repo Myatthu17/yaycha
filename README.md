@@ -8,6 +8,7 @@ This is **Yaycha**, a social media platform project I’m building while followi
 
 ## 🚀 Features
 
+-  User registration and profile management
 - 📝 Create and view posts  
 - 💬 Comment on posts  
 - ❤️ Like posts and comments  
