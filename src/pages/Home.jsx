@@ -93,7 +93,9 @@ export default function Home() {
                 </Box>
             )}
 
-            {data.map(item => {
+            {data.length == 0 ? (
+                <Alert severity="info">No posts yet.</Alert>
+            ) : data.map(item => {
                 return (
                     <Item
                       key={item.id}
