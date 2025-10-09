@@ -22,6 +22,7 @@ import Profile from "./pages/Profile";
 import Comments from "./pages/Comments";
 import Likes from "./pages/Likes";
 import Search from "./pages/Search";
+import Notis from "./pages/Notis";
 
 import { fetchVerify } from "../libs/fetcher";
 
@@ -63,7 +64,11 @@ const router = createBrowserRouter([
             {
                 path: "/search",
                 element: <Search />
-            }
+            },
+            {
+                path: "/notis",
+                element: <Notis />
+            },
         ],
     }, 
 ]);
