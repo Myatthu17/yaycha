@@ -14,6 +14,8 @@ import { QueryClientProvider, QueryClient, Query } from "@tanstack/react-query";
 
 import { deepPurple, grey } from "@mui/material/colors";
 
+import AppSocket from "./AppSocket";
+
 import Template from "./Template";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -117,6 +119,7 @@ export default function ThemedApp() {
             }}>
                 <QueryClientProvider client={queryClient}>
                   <RouterProvider router={router}/>
+                  <AppSocket />
                 </QueryClientProvider>
                 <CssBaseline />
             </AppContext.Provider>
