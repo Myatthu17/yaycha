@@ -36,18 +36,35 @@ export default function Notis() {
     const readAllNotis = useMutation({
         mutationFn: putAllNotisRead,
         onMutate: async () => {
-            await queryClient.cancelQueries(["notis"])
-            await queryClient.setQueryData(["notis"], old => {
-                return old.map(noti => {
-                    noti.read = true;
-                    return noti;
-                })
-            })
-        }
-    })
+            await queryClient.cancelQueries(["notis"]);
+            const previous = queryClient.getQueryData(["notis"]);
+            queryClient.setQueryData(["notis"], old =>
+                old.map(n => ({ ...n, read: true }))
+            );
+            return { previous };
+        },
+        onError: (err, _, context) => {
+            queryClient.setQueryData(["notis"], context.previous);
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries(["notis"]);
+        },
+    });
+
 
     const readNoti = useMutation({
-        mutationFn: id => putNotiRead(id)
+        mutationFn: id => putNotiRead(id),
+        onMutate: async () => {
+            await queryClient.cancelQueries(["notis"]);
+            const previous = queryClient.getQueryData(["notis"]);
+            queryClient.setQueryData(["notis"], old =>
+                old.map(n => ({ ...n, read: true }))
+            );
+            return { previous };
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries(["notis"]);
+        },
     });
 
     if (isError) {
@@ -59,20 +76,20 @@ export default function Notis() {
     }
 
     if (isLoading) {
-        return <Box sx={{ textAlign: "center"}}>Loading...</Box>
+        return <Box sx={{ textAlign: "center" }}>Loading...</Box>
     }
 
     return (
         <Box>
-            <Box sx={{ display: "flex", mb: 2}}>
-                <Box sx={{ flex: 1}}></Box>
+            <Box sx={{ display: "flex", mb: 2 }}>
+                <Box sx={{ flex: 1 }}></Box>
                 <Button
-                  size="small"
-                  variant="outlined"
-                  sx={{ borderRadius: 5}}
-                  onClick={() => {
-                    readAllNotis.mutate();
-                  }}>
+                    size="small"
+                    variant="outlined"
+                    sx={{ borderRadius: 5 }}
+                    onClick={() => {
+                        readAllNotis.mutate();
+                    }}>
                     Mark all as read
                 </Button>
             </Box>
@@ -80,49 +97,49 @@ export default function Notis() {
             {data.map(noti => {
                 return (
                     <Card
-                      sx={{ mb: 2, opacity: noti.read ? 0.3 : 1}}
-                      key = {noti.id}>
+                        sx={{ mb: 2, opacity: noti.read ? 0.3 : 1 }}
+                        key={noti.id}>
                         <CardActionArea
-                          onClick={() => {
-                            readNoti.mutate(noti.id);
-                            navigate(`/comments/${noti.postId}`)
-                          }}>
+                            onClick={() => {
+                                readNoti.mutate(noti.id);
+                                navigate(`/comments/${noti.postId}`)
+                            }}>
                             <CardContent
-                              sx={{ 
-                                display: "flex",
-                                opacity: 1,
-                              }}>
+                                sx={{
+                                    display: "flex",
+                                    opacity: 1,
+                                }}>
                                 {noti.type == "comment" ? (
                                     <CommentIcon color="success" />
                                 ) : (
                                     <FavoriteIcon color="error" />
                                 )}
 
-                                <Box sx={{ ml: 3}}>
+                                <Box sx={{ ml: 3 }}>
                                     <Avatar />
 
-                                    <Box sx={{ mt: 1}}>
+                                    <Box sx={{ mt: 1 }}>
                                         <Typography
-                                          component="span"
-                                          sx={{ mr: 1}}>
+                                            component="span"
+                                            sx={{ mr: 1 }}>
                                             <b>{noti.user.name}</b>
                                         </Typography>
 
                                         <Typography
-                                          component="span"
-                                          sx={{
-                                            mr: 1,
-                                            color: "text.secondary",
-                                          }}>
+                                            component="span"
+                                            sx={{
+                                                mr: 1,
+                                                color: "text.secondary",
+                                            }}>
                                             {noti.content}
                                         </Typography>
 
                                         <Typography
-                                          component="span"
-                                          sx={{
-                                            mr: 1,
-                                            color: "primary",
-                                          }}>
+                                            component="span"
+                                            sx={{
+                                                mr: 1,
+                                                color: "primary",
+                                            }}>
                                             <small>
                                                 {format(
                                                     noti.created,
@@ -131,7 +148,7 @@ export default function Notis() {
                                             </small>
 
                                         </Typography>
-                                        
+
                                     </Box>
 
                                 </Box>
